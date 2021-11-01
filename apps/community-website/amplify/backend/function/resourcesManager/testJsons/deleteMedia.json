@@ -1,0 +1,8 @@
+{
+  "arguments": {
+    "input": {
+      "query": "deleteMedia",
+      "params": "{ \"id\": \"9af9af0e-838d-49b4-b509-192c5a610867\" }"
+    }
+  }
+}

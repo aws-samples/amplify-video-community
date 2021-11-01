@@ -1,0 +1,10 @@
+{
+    "shared": {
+        "resourceName": "ampVideoCommuLive",
+        "bucket": "amplify-ampvideocommuweb-dev-150313-deployment"
+    },
+    "channel": {
+        "channelQuality": "STANDARD",
+        "channelLatency": "LOW"
+    }
+}

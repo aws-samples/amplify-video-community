@@ -1,0 +1,36 @@
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
+html,
+body,
+body > div:first-child,
+body > div:first-child > div:first-child {
+    height: 100%;
+    margin: 0;
+}
+
+body > div:first-child > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f2f3f3;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: #050029;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}

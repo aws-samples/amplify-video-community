@@ -1,0 +1,8 @@
+{
+  "arguments": {
+    "input": {
+      "query": "createMedia",
+      "params": "{\"input\": {\"title\": \"test\", \"description\": \"123\", \"highlighted\": \"false\", \"source\": \"SELF\", \"author\": \"Julien\", \"sections\": [\"3d74db05-6c5c-4af1-abe6-c9a71cf15fac\"]}}"
+    }
+  }
+}

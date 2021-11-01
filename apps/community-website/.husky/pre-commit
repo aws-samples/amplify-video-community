@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cd apps/community-website
+npm run pre-commit
+#exit 1

@@ -1,11 +1,11 @@
-## My Project
+## Project architecture
 
-TODO: Fill this README out!
-Contribution test
-Be sure to:
+This repository contains a two applications, this is a monorepo.
 
-* Change the title in this README
-* Edit your repository description on GitHub
+- Community website is located in `apps/community-website`
+- Documentation website is located in `apps/documentation`
+
+*You'll find related documentation for both applications inside their respective directories*
 
 ## Security
 
@@ -14,4 +14,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This project is licensed under the Apache-2.0 License.
-
