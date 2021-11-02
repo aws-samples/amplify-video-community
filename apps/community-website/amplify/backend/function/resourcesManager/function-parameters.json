@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "api": {
+      "ampVideoCommuWebAPI": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

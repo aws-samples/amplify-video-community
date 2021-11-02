@@ -1,0 +1,41 @@
+version: 1
+applications:
+  - appRoot: apps/community-website
+    backend:
+      phases:
+        build:
+          commands:
+            - '# Execute Amplify CLI with the helper script'
+            - amplifyPush --simple
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: public
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+
+  - appRoot: apps/documentation
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - yarn install
+        build:
+          commands:
+            - yarn run build
+      artifacts:
+        baseDirectory: build
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*

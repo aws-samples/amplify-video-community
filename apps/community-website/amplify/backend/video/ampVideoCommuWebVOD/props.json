@@ -1,0 +1,44 @@
+{
+    "shared": {
+        "resourceName": "ampVideoCommuWebVOD"
+    },
+    "template": {
+        "type": [
+            "HLS"
+        ],
+        "name": "Amplify_Video_HLS.json"
+    },
+    "sns": {
+        "createTopic": false
+    },
+    "contentDeliveryNetwork": {
+        "signedKey": false,
+        "enableDistribution": true
+    },
+    "parameters": {
+        "authRoleName": {
+            "Ref": "AuthRoleName"
+        },
+        "GraphQLAPIId": {
+            "Fn::GetAtt": [
+                "apiampVideoCommuWebAPI",
+                "Outputs.GraphQLAPIIdOutput"
+            ]
+        },
+        "GraphQLEndpoint": {
+            "Fn::GetAtt": [
+                "apiampVideoCommuWebAPI",
+                "Outputs.GraphQLAPIEndpointOutput"
+            ]
+        }
+    },
+    "permissions": {
+        "permissionSchema": [
+            "admin"
+        ]
+    },
+    "cms": {
+        "overrideSchema": true,
+        "editAPI": false
+    }
+}

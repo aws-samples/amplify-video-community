@@ -1,0 +1,200 @@
+### Interfaces
+
+enum Source {
+    SELF
+    YOUTUBE
+    LIVESTREAM_SELF
+}
+
+type Media
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    ) {
+    id: ID!
+    title: String!
+    description: String!
+    highlighted: Boolean!
+    sections: [MediasSections] @connection(keyName: "byMedia", fields: ["id"])
+    source: Source
+    thumbnail: Thumbnail @connection
+    author: String!
+    viewCount: Int
+}
+
+type ContentSubmission
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    ) {
+    id: ID!
+    title: String
+    description: String
+    comment: String
+    source: Source
+    src: String
+    email: String
+}
+
+### General
+
+type Thumbnail
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    ) {
+    id: ID!
+    ext: String!
+    src: String
+}
+
+type Section
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    ) {
+    id: ID!
+    label: String!
+    description: String!
+    medias: [MediasSections] @connection(keyName: "bySection", fields: ["id"])
+}
+
+type MediasSections
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    )
+    @key(name: "bySection", fields: ["sectionID", "mediaID"])
+    @key(name: "byMedia", fields: ["mediaID", "sectionID"]) {
+    id: ID!
+    sectionID: ID!
+    mediaID: ID!
+    section: Section! @connection(fields: ["sectionID"])
+    media: Media! @connection(fields: ["mediaID"])
+}
+
+### Video On Demand
+
+type VideoOnDemand
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    ) {
+    id: ID!
+    media: Media @connection
+    src: String
+}
+
+### Livestreaming
+
+type Livestream
+    @model
+    @aws_iam
+    @aws_cognito_user_pools
+    @auth(
+        rules: [
+            {
+                allow: groups
+                groups: ["Admin"]
+                operations: [create, update, delete, read]
+            }
+            {
+                allow: public
+                provider: iam
+                operations: [create, update, delete, read]
+            }
+        ]
+    ) {
+    id: ID!
+    media: Media @connection
+    url: String
+    isLive: Boolean
+}
+
+input ResourcesManagerInput {
+    query: String!
+    params: AWSJSON
+}
+
+type Query @aws_iam @aws_cognito_user_pools {
+    manageResources(input: ResourcesManagerInput): AWSJSON
+        @function(name: "resourcesManager-${env}")
+}

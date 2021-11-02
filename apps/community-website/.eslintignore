@@ -1,0 +1,12 @@
+node_modules
+amplify
+tests
+public
+aws-video-exports.js
+aws-exports.js
+src/models
+.cache
+.github
+.idea
+.vscode
+
