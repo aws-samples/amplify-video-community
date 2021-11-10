@@ -82,7 +82,7 @@ ve Bitrate
 Successfully updated ampVideoCommuWebVOD
 :::
 
-Update and deploy Video-On-Demand resources
+Update and deploy livestreaming resources
 ```bash
 amplify update video
 ```
