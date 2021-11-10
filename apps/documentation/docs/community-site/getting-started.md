@@ -39,6 +39,10 @@ Follow these instructions to deploy the community site:
 ![Review build settings](./images/provision.png)
 ![Deployed](./images/done.png)
 
+8. Select in the sidebar `Rewrites and redirects`, click `Edit` and remove both rules
+![Rules section](./images/rewrites-redirects.png)
+![Deployed](./images/rules.png)
+
 ### Pull backend locally
 To continue working on the backend, install the Amplify CLI and make updates by running the command below from the root of your project folder.
 
