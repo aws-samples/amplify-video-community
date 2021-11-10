@@ -43,17 +43,63 @@ Follow these instructions to deploy the community site:
 ![Rules section](./images/rewrites-redirects.png)
 ![Deployed](./images/rules.png)
 
-### Pull backend locally
+### Pull backend locally and create video resources
 To continue working on the backend, install the Amplify CLI and make updates by running the command below from the root of your project folder.
 
 ![Backend](./images/backend.png)
-
+:::caution
+*You must have cloned the repository before continuing*
+:::
 ```bash
 cd amplify-video-community/apps/community-website
 ```
 
 ```bash
 amplify pull --appId <your-app-id> --envName <your-env>
+```
+
+Update and deploy Video-On-Demand resources
+```bash
+amplify update video
+```
+
+:::info **Console output:**
+
+? Choose what project you want to update? ampVideoCommuWebVOD
+
+? Select a system-provided encoding template, specify an already-created template name:  Default HLS Adapti
+ve Bitrate
+
+? Do you want to get notifications on the video processing job? No
+
+? Is this a production enviroment? Yes
+
+? We detected you have signed urls configured. Would you like to: Remove signed urls
+
+? Do you want Amplify to create a new GraphQL API to manage your videos? (Beta) No
+
+✔ All resources built.
+Successfully updated ampVideoCommuWebVOD
+:::
+
+Update and deploy Video-On-Demand resources
+```bash
+amplify update video
+```
+:::info **Console output:**
+
+? Choose what project you want to update? ampVideoCommuLive
+
+? Choose the Channel type or stream quality: Standard (HD Stream)
+
+? Choose the Video latency type: Ultra-low latency (~5 seconds)
+
+✔ All resources built.
+Successfully updated ampVideoCommuLive
+:::
+
+```bash
+amplify push --yes
 ```
 
 ### Create administrator account
