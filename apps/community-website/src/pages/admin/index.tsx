@@ -30,7 +30,7 @@ const AdminMainPage = () => {
                     icon={OndemandVideoIcon}
                 />
                 <Resource
-                    name="Lives"
+                    name="Livestreams"
                     list={LiveList}
                     edit={LiveEdit}
                     create={LiveCreate}
