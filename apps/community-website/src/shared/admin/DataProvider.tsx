@@ -157,7 +157,7 @@ const resourcesMap = {
                 )
             ).then((deletedVideos) => ({ data: deletedVideos })),
     },
-    Lives: {
+    Livestreams: {
         getList: () =>
             fetchLivestreamsWithThumbnail().then(({ data }) =>
                 data && data.listLivestreams && data.listLivestreams.items
