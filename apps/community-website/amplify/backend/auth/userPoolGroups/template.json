@@ -104,7 +104,7 @@
                         "s3:PutObject",
                         "s3:DeleteObject"
                     ],
-                    "Resource": "arn:aws:s3:::ampvideocommuwebvod-dev-input-pgay281b/*"
+                    "Resource": "arn:aws:s3:::ampvideocommuwebvod-prod-input-hcebqu0tpe49/*"
                 }
             ]
         }

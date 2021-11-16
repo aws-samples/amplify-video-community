@@ -2,7 +2,7 @@
 title: About Amplify Video
 ---
 
-![icon](./aws-amplify-banner.png)
+![icon](./amplify-video-banner.png)
 
 Amplify Video is an open source category for the [AWS Amplify Framework](https://docs.amplify.aws/) that simplifies the development of serverless video-enabled web applications. With [Amplify Video], application developers or I.T. administrators can build live streaming or video-on-demand integrated web applications in minutes.
 

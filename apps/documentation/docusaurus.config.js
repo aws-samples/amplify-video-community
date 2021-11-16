@@ -129,8 +129,8 @@ const config = {
           },
         ],
         logo: {
-          alt: "Facebook Open Source Log",
-          src: "img/logo.png",
+          alt: "Amplify Video",
+          src: "img/amplify.png",
           href: "/docs/CLI/Installation",
         },
         copyright: `© ${new Date().getFullYear()} Amazon Web Services, Inc. or its affiliates. All rights reserved. Created by <a href="https://trackit.io/" target="__blank">TrackIt</a>`,
