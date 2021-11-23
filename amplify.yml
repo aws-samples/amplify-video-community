@@ -3,6 +3,9 @@ applications:
   - appRoot: apps/community-website
     backend:
       phases:
+        preBuild:
+          commands:
+            - npm install -g amplify-category-video@3.8.2
         build:
           commands:
             - '# Execute Amplify CLI with the helper script'

@@ -18,27 +18,6 @@
     "parameters": {
         "authRoleName": {
             "Ref": "AuthRoleName"
-        },
-        "GraphQLAPIId": {
-            "Fn::GetAtt": [
-                "apiampVideoCommuWebAPI",
-                "Outputs.GraphQLAPIIdOutput"
-            ]
-        },
-        "GraphQLEndpoint": {
-            "Fn::GetAtt": [
-                "apiampVideoCommuWebAPI",
-                "Outputs.GraphQLAPIEndpointOutput"
-            ]
         }
-    },
-    "permissions": {
-        "permissionSchema": [
-            "admin"
-        ]
-    },
-    "cms": {
-        "overrideSchema": true,
-        "editAPI": false
     }
 }
