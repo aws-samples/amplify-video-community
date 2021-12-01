@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import LandingLink from '../Button/Link'
+import { screenSizes } from '../../constants'
 
 const Container = styled.div`
     background-color: #242f3e;
@@ -10,17 +11,17 @@ const Container = styled.div`
 const ContentWrapper = styled.div`
     padding: 50px;
     display: flex;
-`
+    gap: 50px;
 
-type ContentProps = {
-    last?: boolean
-    first?: boolean
-}
+    @media (max-width: ${screenSizes.m}px) {
+        flex-direction: column;
+        padding: 10px;
+        padding-top: 20px;
+    }
+`
 
 const Content = styled.div<ContentProps>`
     flex: 1;
-    padding-left: ${(props) => (props.first ? '0' : '75px')};
-    padding-right: ${(props) => (props.last ? '0' : '75px')};
 `
 
 const ContentTitle = styled.h2`
@@ -42,9 +43,11 @@ const StyledContentLink = styled.a`
     color: #ffffff;
     margin: 0 0 10px 0;
     text-decoration: none;
+    width: 220px;
 `
 
 const Divideur = styled.div`
+    margin-top: 20px;
     border: 1px solid #e5e5e5;
     width: 100%;
 `
@@ -68,6 +71,11 @@ const NormalText = styled.p`
     color: #ffffff;
     margin: 0 5px;
 `
+const UsefulLinks = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+`
 
 const BoldLink = styled.a`
     font-weight: 600;
@@ -90,7 +98,7 @@ const ContentLink = ({ href, text }: ContentLinkProps) => (
 const Footer = () => (
     <Container>
         <ContentWrapper>
-            <Content first>
+            <Content>
                 <ContentTitle>Getting started</ContentTitle>
                 <ContentText>
                     Start using Amplify Video to easily incorporate video
@@ -116,28 +124,30 @@ const Footer = () => (
                     text="GitHub Repository"
                 />
             </Content>
-            <Content last>
+            <Content>
                 <ContentTitle>Useful links</ContentTitle>
-                <ContentLink
-                    href="https://aws.amazon.com/amplify/"
-                    text="AWS Amplify"
-                />
-                <ContentLink
-                    href="https://docs.amplify.aws/"
-                    text="Amplify documentation"
-                />
-                <ContentLink
-                    href="https://aws.amazon.com/fr/media-services/"
-                    text="AWS Media Services"
-                />
-                <ContentLink
-                    href="https://github.com/awslabs/amplify-video/wiki/Getting-Started-with-Live"
-                    text="Getting started with LIVE"
-                />
-                <ContentLink
-                    href="https://github.com/awslabs/amplify-video/wiki/Getting-Started-with-VOD"
-                    text="Getting started with VOD"
-                />
+                <UsefulLinks>
+                    <ContentLink
+                        href="https://aws.amazon.com/amplify/"
+                        text="AWS Amplify"
+                    />
+                    <ContentLink
+                        href="https://docs.amplify.aws/"
+                        text="Amplify documentation"
+                    />
+                    <ContentLink
+                        href="https://aws.amazon.com/fr/media-services/"
+                        text="AWS Media Services"
+                    />
+                    <ContentLink
+                        href="https://github.com/awslabs/amplify-video/wiki/Getting-Started-with-Live"
+                        text="Getting started with LIVE"
+                    />
+                    <ContentLink
+                        href="https://github.com/awslabs/amplify-video/wiki/Getting-Started-with-VOD"
+                        text="Getting started with VOD"
+                    />
+                </UsefulLinks>
             </Content>
         </ContentWrapper>
         <Divideur />
