@@ -63,19 +63,17 @@ type NavBarProps = {
 const NavBar = ({
     navbarTheme,
     onHeightChange,
-    maxHeight = 9, // % of the total height of the screen
-    minHeight = 5, // % of the total height of the screen
+    maxHeight = 110,
+    minHeight = 76,
 }: NavBarProps) => {
     const [groups, setGroups] = useState<Array<string>>([])
     const { height } = useWindowDimensions()
-    const [navBarHeight, setNavBarHeight] = useState(height * (maxHeight / 100))
-
-    const computedMinHeight = height * (minHeight / 100)
+    const [navBarHeight, setNavBarHeight] = useState(maxHeight)
 
     const handleScroll = () => {
-        const computedHeight = height * (maxHeight / 100) - window.pageYOffset
-        computedHeight < computedMinHeight
-            ? setNavBarHeight(computedMinHeight)
+        const computedHeight = maxHeight - window.pageYOffset
+        computedHeight < minHeight
+            ? setNavBarHeight(minHeight)
             : setNavBarHeight(computedHeight)
     }
 
@@ -110,7 +108,7 @@ const NavBar = ({
             id="video-community-header"
             theme={navbarTheme}
             height={navBarHeight}
-            minHeight={computedMinHeight}
+            minHeight={minHeight}
         >
             <LogoLink href="/">
                 {navbarTheme.amplifyLogo === 'light' ? (
@@ -132,7 +130,7 @@ const NavBar = ({
                     <HeaderLink
                         theme={navbarTheme}
                         navBarHeight={navBarHeight}
-                        navBarMinHeight={computedMinHeight}
+                        navBarMinHeight={minHeight}
                         to="/videos"
                         content="Videos"
                     />
@@ -141,11 +139,11 @@ const NavBar = ({
                         to="/live"
                         content="Live"
                         navBarHeight={navBarHeight}
-                        navBarMinHeight={computedMinHeight}
+                        navBarMinHeight={minHeight}
                     />
                     <HeaderLink
                         theme={navbarTheme}
-                        navBarMinHeight={computedMinHeight}
+                        navBarMinHeight={minHeight}
                         navBarHeight={navBarHeight}
                         to="/about"
                         content="About"
@@ -153,7 +151,7 @@ const NavBar = ({
                     <HeaderLink
                         theme={navbarTheme}
                         navBarHeight={navBarHeight}
-                        navBarMinHeight={computedMinHeight}
+                        navBarMinHeight={minHeight}
                         isExternal
                         to="https://docs.amplify-video.com/"
                         content="Documentation"
@@ -162,7 +160,7 @@ const NavBar = ({
                         <HeaderLink
                             theme={navbarTheme}
                             navBarHeight={navBarHeight}
-                            navBarMinHeight={computedMinHeight}
+                            navBarMinHeight={minHeight}
                             to="/admin"
                             content="Admin"
                         />

@@ -138,7 +138,7 @@ const VideoCardList = ({
                     onClick={() => setScroll(scroll + nbVideoPerSlide)}
                 />
             )}
-            {-scroll < videoInfos.length + 1 - nbVideoPerSlide && (
+            {-scroll < videoInfos.length - nbVideoPerSlide && (
                 <NextArrow
                     onClick={() => setScroll(scroll - nbVideoPerSlide)}
                 />

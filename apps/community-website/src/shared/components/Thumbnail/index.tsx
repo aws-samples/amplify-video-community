@@ -15,6 +15,10 @@ const ThumbnailContainer = styled.div`
     height: 200px;
     border-radius: ${(props) => (props.hover ? '10px 10px 0 0' : '10px')};
     overflow: hidden;
+
+    video {
+        object-fit: cover;
+    }
 `
 
 const TransparentOverlay = styled.div`
@@ -45,30 +49,32 @@ const Thumbnail = ({ video, videoStatus }) => {
             }
             hover={videoStatus.playing}
         >
-            <ReactPlayer
-                ref={playerRef}
-                style={{ opacity: videoStatus.playing ? '1' : '0' }}
-                width="100%"
-                height="100%"
-                url={
-                    video.vod
-                        ? video.vod?.media?.source === 'SELF'
-                            ? `https://${awsvideoconfig.awsOutputVideo}/public/${video.vod?.id}/${video.vod?.id}.m3u8`
-                            : video.vod?.src
-                        : video.url
-                }
-                controls={false}
-                playing={videoStatus.playing}
-                muted
-                config={{
-                    youtube: {
-                        playerVars: {
-                            controls: 0,
-                            rel: 0,
+            {videoStatus.playing && (
+                <ReactPlayer
+                    ref={playerRef}
+                    style={{ opacity: videoStatus.playing ? '1' : '0' }}
+                    width="100%"
+                    height="100%"
+                    url={
+                        video.vod
+                            ? video.vod?.media?.source === 'SELF'
+                                ? `https://${awsvideoconfig.awsOutputVideo}/public/${video.vod?.id}/${video.vod?.id}.m3u8`
+                                : video.vod?.src
+                            : video.url
+                    }
+                    controls={false}
+                    playing
+                    muted
+                    config={{
+                        youtube: {
+                            playerVars: {
+                                controls: 0,
+                                rel: 0,
+                            },
                         },
-                    },
-                }}
-            />
+                    }}
+                />
+            )}
             <TransparentOverlay visible={videoStatus.playing}>
                 <PlayLogo />
             </TransparentOverlay>

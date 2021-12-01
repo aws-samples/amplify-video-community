@@ -26,14 +26,12 @@ const Item = styled.li`
     white-space: nowrap;
     cursor: pointer;
     border-bottom: 0 solid ${(props) => props.theme.textHoverColor};
-    border-top: 0 solid rgba(0, 0, 0, 0);
-    transition: border-bottom 100ms ease-out, border-top 100ms ease-out;
+    transition: border-bottom 100ms ease-out;
     box-sizing: content-box;
 
     &:hover {
         border-bottom: ${(props) => props.borderHeight}px solid
             ${(props) => props.theme.textHoverColor};
-        border-top: ${(props) => props.borderHeight}px solid rgba(0, 0, 0, 0);
     }
 `
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { required, Create, SimpleForm, TextInput } from 'react-admin'
 
 const SectionCreate = (props) => (
-    <Create {...props}>
+    <Create {...props} undoable={false}>
         <SimpleForm>
             <TextInput source="label" validate={required()} />
             <TextInput

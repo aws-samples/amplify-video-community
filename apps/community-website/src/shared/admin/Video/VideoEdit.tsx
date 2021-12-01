@@ -33,7 +33,7 @@ const VideoEdit = (props) => {
     }, [])
 
     return (
-        <Edit {...props}>
+        <Edit {...props} undoable={false}>
             <SimpleForm>
                 <ThumbnailField source="thumbnail" width={400} height={200} />
                 <TextInput source="title" validate={required()} />
