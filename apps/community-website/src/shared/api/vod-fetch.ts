@@ -26,6 +26,7 @@ export const listVideoOnDemands = /* GraphQL */ `
                     description
                     highlighted
                     source
+                    author
                     thumbnail {
                         id
                         ext
@@ -99,6 +100,7 @@ export const listVodSections = /* GraphQL */ `
                 description
                 highlighted
                 source
+                author
                 createdAt
                 updatedAt
                 thumbnail {

@@ -3,7 +3,7 @@ import Layout from '../shared/components/Layout'
 import Landing from '../shared/home/Landing'
 /* import Community from '../shared/home/Community' */
 import IntroductionSection from '../shared/home/IntroductionSection'
-import StreamingContent from '../shared/home/Streaming'
+/* import StreamingContent from '../shared/home/Streaming' */
 import SubmissionForm from '../shared/home/SubmissionForm'
 import defaultTheme, { NavbarTheme, defaultNavbar } from '../shared/theme'
 
@@ -66,7 +66,7 @@ const HomePage = () => {
         <Layout overrideTheme={theme} removePaddingTop>
             <Landing />
             <IntroductionSection />
-            <StreamingContent />
+            {/* <StreamingContent /> */}
             {/* <Community /> */}
             <SubmissionForm />
         </Layout>
