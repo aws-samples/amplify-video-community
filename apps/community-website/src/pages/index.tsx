@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../shared/components/Layout'
 import Landing from '../shared/home/Landing'
-import Community from '../shared/home/Community'
+/* import Community from '../shared/home/Community' */
 import IntroductionSection from '../shared/home/IntroductionSection'
 import StreamingContent from '../shared/home/Streaming'
 import SubmissionForm from '../shared/home/SubmissionForm'
@@ -67,7 +67,7 @@ const HomePage = () => {
             <Landing />
             <IntroductionSection />
             <StreamingContent />
-            <Community />
+            {/* <Community /> */}
             <SubmissionForm />
         </Layout>
     )
