@@ -11,8 +11,8 @@ const ThumbnailContainer = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 360px;
-    height: 200px;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
     border-radius: ${(props) => (props.hover ? '10px 10px 0 0' : '10px')};
     overflow: hidden;
 
@@ -35,7 +35,7 @@ const TransparentOverlay = styled.div`
     opacity: ${(props) => (props.visible ? 1 : 0)};
 `
 
-const Thumbnail = ({ video, videoStatus }) => {
+const Thumbnail = ({ video, videoStatus, loadVideo = true, width, height }) => {
     const playerRef = useRef<ReactPlayer>(null)
 
     return (
@@ -48,8 +48,10 @@ const Thumbnail = ({ video, videoStatus }) => {
                     : `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`
             }
             hover={videoStatus.playing}
+            width={width}
+            height={height}
         >
-            {videoStatus.playing && (
+            {loadVideo && (
                 <ReactPlayer
                     ref={playerRef}
                     style={{ opacity: videoStatus.playing ? '1' : '0' }}

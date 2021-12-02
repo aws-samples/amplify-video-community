@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Auth } from 'aws-amplify'
-import HeaderLink from './Link'
-import Search from './Search'
+import Menu from './Menu'
 import { NavbarTheme } from '../../theme'
 import { useWindowDimensions } from '../../hooks'
 import LogoDark from '../../../assets/logo/logo-dark.svg'
 import LogoLight from '../../../assets/logo/logo-light.svg'
+import { screenSizes } from '../../constants'
 
 const Header = styled.header`
     box-sizing: border-box;
@@ -40,19 +39,6 @@ const LogoText = styled.span`
     font-size: 18px;
 `
 
-const LinkListContainer = styled.ul`
-    list-style: none;
-    display: flex;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-`
-
-const RightItemsWrapper = styled.div`
-    display: flex;
-    height: 100%;
-`
-
 type NavBarProps = {
     navbarTheme: NavbarTheme
     onHeightChange: (height: number) => void
@@ -66,8 +52,7 @@ const NavBar = ({
     maxHeight = 110,
     minHeight = 76,
 }: NavBarProps) => {
-    const [groups, setGroups] = useState<Array<string>>([])
-    const { height } = useWindowDimensions()
+    const { height, width } = useWindowDimensions()
     const [navBarHeight, setNavBarHeight] = useState(maxHeight)
 
     const handleScroll = () => {
@@ -91,18 +76,6 @@ const NavBar = ({
         }
     }, [height])
 
-    useEffect(() => {
-        Auth.Credentials.get().then(() => {
-            if (Auth.Credentials.getCredSource() === 'userPool') {
-                Auth.currentSession().then((data) => {
-                    const groupsData =
-                        data.getIdToken().payload['cognito:groups']
-                    if (groupsData !== undefined) setGroups(groupsData)
-                })
-            }
-        })
-    }, [])
-
     return (
         <Header
             id="video-community-header"
@@ -123,51 +96,16 @@ const NavBar = ({
                     />
                 )}
 
-                <LogoText theme={navbarTheme}>Amplify Video</LogoText>
+                {width > screenSizes.xs && (
+                    <LogoText theme={navbarTheme}>Amplify Video</LogoText>
+                )}
             </LogoLink>
-            <RightItemsWrapper>
-                <LinkListContainer>
-                    <HeaderLink
-                        theme={navbarTheme}
-                        navBarHeight={navBarHeight}
-                        navBarMinHeight={minHeight}
-                        to="/videos"
-                        content="Videos"
-                    />
-                    <HeaderLink
-                        theme={navbarTheme}
-                        to="/live"
-                        content="Live"
-                        navBarHeight={navBarHeight}
-                        navBarMinHeight={minHeight}
-                    />
-                    <HeaderLink
-                        theme={navbarTheme}
-                        navBarMinHeight={minHeight}
-                        navBarHeight={navBarHeight}
-                        to="/about"
-                        content="About"
-                    />
-                    <HeaderLink
-                        theme={navbarTheme}
-                        navBarHeight={navBarHeight}
-                        navBarMinHeight={minHeight}
-                        isExternal
-                        to="https://docs.amplify-video.com/"
-                        content="Documentation"
-                    />
-                    {groups.includes('Admin') && (
-                        <HeaderLink
-                            theme={navbarTheme}
-                            navBarHeight={navBarHeight}
-                            navBarMinHeight={minHeight}
-                            to="/admin"
-                            content="Admin"
-                        />
-                    )}
-                </LinkListContainer>
-                <Search theme={navbarTheme} to="/search" />
-            </RightItemsWrapper>
+            <Menu
+                navbarTheme={navbarTheme}
+                navBarHeight={navBarHeight}
+                minHeight={minHeight}
+                dropdownMode={width <= screenSizes.m}
+            />
         </Header>
     )
 }
