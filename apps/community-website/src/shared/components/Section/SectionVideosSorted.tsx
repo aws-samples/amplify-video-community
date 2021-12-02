@@ -26,6 +26,7 @@ const Separator = styled.div`
     height: 2px;
     width: 100px;
     margin-bottom: 20px;
+    max-width: 100%;
 `
 
 export const KEY_SORT_BY_MOST_VIEWED = 'Most Viewed'
@@ -35,6 +36,7 @@ const SectionVideosSorted = ({
     videos,
     thumbnails,
     sortBy = KEY_SORT_BY_MOST_VIEWED,
+    cardProperties,
 }) => {
     return (
         <SectionContainer>
@@ -62,6 +64,9 @@ const SectionVideosSorted = ({
                                         key={asset.id}
                                         video={videoInfo}
                                         haveSubtitle
+                                        videoInfos={cardProperties.infos}
+                                        cardWidth={cardProperties.width}
+                                        cardHeight={cardProperties.height}
                                     />
                                 </>
                             )
@@ -92,6 +97,9 @@ const SectionVideosSorted = ({
                                             key={asset.id}
                                             video={videoInfo}
                                             haveSubtitle
+                                            videoInfos={cardProperties.infos}
+                                            cardWidth={cardProperties.width}
+                                            cardHeight={cardProperties.height}
                                         />
                                     </>
                                 )
