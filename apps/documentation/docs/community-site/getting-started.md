@@ -103,6 +103,22 @@ Successfully updated ampVideoCommuLive
 amplify push --yes
 ```
 
+### Check Amazon S3 resources
+
+It can happen that Amazon S3 bucket names related to Amplify Video resources are not automatically updated when deploying the community-site.
+
+You need to make sure that `Resource` value in `apps/community-website/amplify/backend/auth/userPoolGroups/template.json` contains the same bucket name from `awsInputVideo` key in `apps/community-website/src/aws-video-exports.js` 
+
+See screenshots below:
+
+![AWS video export](./images/aws-video-exports.png)
+
+![User pool template](./images/user-pool-group-template.png)
+
+```bash
+amplify push --yes
+```
+
 ### Create administrator account
 
 1. Go to AWS Cognito (make sur you are in the correct region). Click `Manage User Pools`
