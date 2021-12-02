@@ -5,6 +5,8 @@ import { VideoOnDemand, Section, Thumbnail } from '../../../models'
 import VideoCardList from '../Sliders/VideoCardSlider'
 import { navigate } from 'gatsby'
 import RightArrowLogo from '../../../assets/logo/right-arrow.svg'
+import { useWindowDimensions } from '../../hooks'
+import { screenSizes } from '../../constants'
 
 type SectionProps = {
     section: Section
@@ -31,6 +33,10 @@ const VideosSectionContainer = styled.div`
     margin-top: 100px;
     background-color: #f9f9f9;
     overflow: hidden;
+
+    @media (max-width: ${screenSizes.s}px) {
+        margin-top: 40px;
+    }
 `
 
 const Header = styled.div`
@@ -62,6 +68,7 @@ const StyledArrow = styled(RightArrowLogo)`
 
 const VideosSection = ({ section, vodAssets, thumbnails }: SectionProps) => {
     const [videoInfos, setVideoInfos] = useState<Array<VideoInfo>>([])
+    const { width } = useWindowDimensions()
 
     useEffect(() => {
         const fAssets: Array<VideoInfo> = []
@@ -90,23 +97,18 @@ const VideosSection = ({ section, vodAssets, thumbnails }: SectionProps) => {
         <VideosSectionContainer>
             <Header>
                 <Title>{section.label}</Title>
-                <SeeAll
-                    onClick={() => {
-                        navigate(`/videos/section/${section.id}`)
-                    }}
-                >
-                    See all
-                    <StyledArrow />
-                </SeeAll>
+                {width > screenSizes.xs && (
+                    <SeeAll
+                        onClick={() => {
+                            navigate(`/videos/section/${section.id}`)
+                        }}
+                    >
+                        See all
+                        <StyledArrow />
+                    </SeeAll>
+                )}
             </Header>
-            <VideoCardList
-                videoInfos={videoInfos}
-                config={{
-                    width: 480,
-                    height: 270,
-                }}
-                section={section}
-            />
+            <VideoCardList videoInfos={videoInfos} section={section} />
         </VideosSectionContainer>
     ) : null
 }

@@ -1,7 +1,7 @@
 export const defaultVideoCardProperties = {
     width: 360,
     height: 200,
-    infos: 'hover',
+    infos: 'show',
 }
 
 export const screenSizes = {

@@ -4,6 +4,7 @@ import { navigate } from 'gatsby'
 import CSS from 'csstype'
 import styled, { css } from 'styled-components'
 import { VideoOnDemand, Thumbnail } from '../../../../models'
+import { screenSizes } from '../../../constants'
 
 type CardContainerProps = {
     isActive: boolean
@@ -34,6 +35,11 @@ const CardContainer = styled.div<CardContainerProps>`
 
     & img {
         width: 100%;
+        margin: 0 auto;
+    }
+
+    @media (max-width: ${screenSizes.xs}px) {
+        width: 30%;
         margin: 0 auto;
     }
 `
@@ -134,9 +140,10 @@ type VideoCardProps = {
     isActive: boolean
     style?: CSS.Properties
     imgStyle?: CSS.Properties
+    displayInfos?: boolean
 }
 
-const VideoCard = ({ thumbnail, isActive }: VideoCardProps) => {
+const VideoCard = ({ thumbnail, isActive, displayInfos }: VideoCardProps) => {
     const onClick = () => {
         navigate('/live')
     }
@@ -163,7 +170,7 @@ const VideoCard = ({ thumbnail, isActive }: VideoCardProps) => {
                             <LiveText>LIVE</LiveText>
                         </LiveMarker>
                     )}
-                    {isActive && (
+                    {isActive && displayInfos && (
                         <LiveInformations>
                             <TopInformations>
                                 <StreamerImageContainer>
