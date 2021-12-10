@@ -11,10 +11,14 @@ const ThumbnailContainer = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 360px;
-    height: 200px;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
     border-radius: ${(props) => (props.hover ? '10px 10px 0 0' : '10px')};
     overflow: hidden;
+
+    video {
+        object-fit: cover;
+    }
 `
 
 const TransparentOverlay = styled.div`
@@ -31,7 +35,7 @@ const TransparentOverlay = styled.div`
     opacity: ${(props) => (props.visible ? 1 : 0)};
 `
 
-const Thumbnail = ({ video, videoStatus }) => {
+const Thumbnail = ({ video, videoStatus, loadVideo = true, width, height }) => {
     const playerRef = useRef<ReactPlayer>(null)
 
     return (
@@ -44,31 +48,35 @@ const Thumbnail = ({ video, videoStatus }) => {
                     : `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`
             }
             hover={videoStatus.playing}
+            width={width}
+            height={height}
         >
-            <ReactPlayer
-                ref={playerRef}
-                style={{ opacity: videoStatus.playing ? '1' : '0' }}
-                width="100%"
-                height="100%"
-                url={
-                    video.vod
-                        ? video.vod?.media?.source === 'SELF'
-                            ? `https://${awsvideoconfig.awsOutputVideo}/public/${video.vod?.id}/${video.vod?.id}.m3u8`
-                            : video.vod?.src
-                        : video.url
-                }
-                controls={false}
-                playing={videoStatus.playing}
-                muted
-                config={{
-                    youtube: {
-                        playerVars: {
-                            controls: 0,
-                            rel: 0,
+            {loadVideo && (
+                <ReactPlayer
+                    ref={playerRef}
+                    style={{ opacity: videoStatus.playing ? '1' : '0' }}
+                    width="100%"
+                    height="100%"
+                    url={
+                        video.vod
+                            ? video.vod?.media?.source === 'SELF'
+                                ? `https://${awsvideoconfig.awsOutputVideo}/public/${video.vod?.id}/${video.vod?.id}.m3u8`
+                                : video.vod?.src
+                            : video.url
+                    }
+                    controls={false}
+                    playing
+                    muted
+                    config={{
+                        youtube: {
+                            playerVars: {
+                                controls: 0,
+                                rel: 0,
+                            },
                         },
-                    },
-                }}
-            />
+                    }}
+                />
+            )}
             <TransparentOverlay visible={videoStatus.playing}>
                 <PlayLogo />
             </TransparentOverlay>

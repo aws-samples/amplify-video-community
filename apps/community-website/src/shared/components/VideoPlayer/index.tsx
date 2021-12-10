@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 const VideoPlayerWrapper = styled.div`
     margin: auto;
-    width: 70%;
+    width: 100%;
 `
 
 export default class Index extends React.Component<videojs.PlayerOptions> {

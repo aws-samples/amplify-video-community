@@ -5,6 +5,7 @@ html,
 body,
 body > div:first-child,
 body > div:first-child > div:first-child {
+    --amplify-primary-color: #ff9900;
     height: 100%;
     margin: 0;
 }

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Auth } from 'aws-amplify'
-import HeaderLink from './Link'
-import Search from './Search'
+import Menu from './Menu'
 import { NavbarTheme } from '../../theme'
 import { useWindowDimensions } from '../../hooks'
 import LogoDark from '../../../assets/logo/logo-dark.svg'
 import LogoLight from '../../../assets/logo/logo-light.svg'
+import { screenSizes } from '../../constants'
 
 const Header = styled.header`
     box-sizing: border-box;
@@ -40,19 +39,6 @@ const LogoText = styled.span`
     font-size: 18px;
 `
 
-const LinkListContainer = styled.ul`
-    list-style: none;
-    display: flex;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-`
-
-const RightItemsWrapper = styled.div`
-    display: flex;
-    height: 100%;
-`
-
 type NavBarProps = {
     navbarTheme: NavbarTheme
     onHeightChange: (height: number) => void
@@ -63,19 +49,16 @@ type NavBarProps = {
 const NavBar = ({
     navbarTheme,
     onHeightChange,
-    maxHeight = 9, // % of the total height of the screen
-    minHeight = 5, // % of the total height of the screen
+    maxHeight = 110,
+    minHeight = 76,
 }: NavBarProps) => {
-    const [groups, setGroups] = useState<Array<string>>([])
-    const { height } = useWindowDimensions()
-    const [navBarHeight, setNavBarHeight] = useState(height * (maxHeight / 100))
-
-    const computedMinHeight = height * (minHeight / 100)
+    const { height, width } = useWindowDimensions()
+    const [navBarHeight, setNavBarHeight] = useState(maxHeight)
 
     const handleScroll = () => {
-        const computedHeight = height * (maxHeight / 100) - window.pageYOffset
-        computedHeight < computedMinHeight
-            ? setNavBarHeight(computedMinHeight)
+        const computedHeight = maxHeight - window.pageYOffset
+        computedHeight < minHeight
+            ? setNavBarHeight(minHeight)
             : setNavBarHeight(computedHeight)
     }
 
@@ -93,24 +76,12 @@ const NavBar = ({
         }
     }, [height])
 
-    useEffect(() => {
-        Auth.Credentials.get().then(() => {
-            if (Auth.Credentials.getCredSource() === 'userPool') {
-                Auth.currentSession().then((data) => {
-                    const groupsData =
-                        data.getIdToken().payload['cognito:groups']
-                    if (groupsData !== undefined) setGroups(groupsData)
-                })
-            }
-        })
-    }, [])
-
     return (
         <Header
             id="video-community-header"
             theme={navbarTheme}
             height={navBarHeight}
-            minHeight={computedMinHeight}
+            minHeight={minHeight}
         >
             <LogoLink href="/">
                 {navbarTheme.amplifyLogo === 'light' ? (
@@ -125,51 +96,16 @@ const NavBar = ({
                     />
                 )}
 
-                <LogoText theme={navbarTheme}>Amplify Video</LogoText>
+                {width > screenSizes.xs && (
+                    <LogoText theme={navbarTheme}>Amplify Video</LogoText>
+                )}
             </LogoLink>
-            <RightItemsWrapper>
-                <LinkListContainer>
-                    <HeaderLink
-                        theme={navbarTheme}
-                        navBarHeight={navBarHeight}
-                        navBarMinHeight={computedMinHeight}
-                        to="/videos"
-                        content="Videos"
-                    />
-                    <HeaderLink
-                        theme={navbarTheme}
-                        to="/live"
-                        content="Live"
-                        navBarHeight={navBarHeight}
-                        navBarMinHeight={computedMinHeight}
-                    />
-                    <HeaderLink
-                        theme={navbarTheme}
-                        navBarMinHeight={computedMinHeight}
-                        navBarHeight={navBarHeight}
-                        to="/about"
-                        content="About"
-                    />
-                    <HeaderLink
-                        theme={navbarTheme}
-                        navBarHeight={navBarHeight}
-                        navBarMinHeight={computedMinHeight}
-                        isExternal
-                        to="https://docs.amplify-video.com/"
-                        content="Documentation"
-                    />
-                    {groups.includes('Admin') && (
-                        <HeaderLink
-                            theme={navbarTheme}
-                            navBarHeight={navBarHeight}
-                            navBarMinHeight={computedMinHeight}
-                            to="/admin"
-                            content="Admin"
-                        />
-                    )}
-                </LinkListContainer>
-                <Search theme={navbarTheme} to="/search" />
-            </RightItemsWrapper>
+            <Menu
+                navbarTheme={navbarTheme}
+                navBarHeight={navBarHeight}
+                minHeight={minHeight}
+                dropdownMode={width <= screenSizes.m}
+            />
         </Header>
     )
 }

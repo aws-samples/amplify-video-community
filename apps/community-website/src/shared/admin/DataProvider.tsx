@@ -53,7 +53,7 @@ const resourcesMap = {
                     id: params.data.id,
                     title: params.data.title,
                     description: params.data.description,
-                    highlited: params.data.highlited,
+                    highlighted: params.data.highlighted,
                     source: params.data.source,
                     author: params.data.author,
                     sections: params.data.sections,
@@ -79,8 +79,8 @@ const resourcesMap = {
                     description: params.data.description
                         ? params.data.description
                         : '',
-                    highlighted: params.data.highlited
-                        ? params.data.highlited
+                    highlighted: params.data.highlighted
+                        ? params.data.highlighted
                         : false,
                     author: params.data.author,
                 },
@@ -199,7 +199,7 @@ const resourcesMap = {
                     id: params.data.id,
                     title: params.data.title,
                     description: params.data.description,
-                    highlited: params.data.highlited,
+                    highlighted: params.data.highlighted,
                     source: params.data.source,
                     author: params.data.author,
                 }).then(({ data }) =>

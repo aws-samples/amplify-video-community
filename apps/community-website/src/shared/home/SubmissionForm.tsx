@@ -5,12 +5,17 @@ import { setContentSubmission } from '../api'
 import FormInput from '../components/Input'
 import LandingButton from '../components/Button'
 import * as APIt from '../../API'
+import { screenSizes } from '../constants'
 
 const Container = styled.div`
     padding: 100px;
     background-color: #ffffff;
     display: flex;
     justify-content: center;
+
+    @media (max-width: ${screenSizes.s}px) {
+        padding: 100px 30px;
+    }
 `
 
 const Wrapper = styled.div`
@@ -44,6 +49,10 @@ const SubTitle = styled.p`
 const FormContainer = styled.div`
     display: flex;
     margin-bottom: 20px;
+
+    @media (max-width: ${screenSizes.s}px) {
+        flex-direction: column;
+    }
 `
 
 type InputsWrapperType = {
@@ -60,6 +69,15 @@ const InputsWrapper = styled.div<InputsWrapperType>`
             : css`
                   padding-right: 50px;
               `}
+
+    @media (max-width: ${screenSizes.s}px) {
+        ${(props) =>
+            props.right &&
+            css`
+                margin-top: 20px;
+            `}
+        padding: 0;
+    }
 `
 
 const ButtonWrapper = styled.div`

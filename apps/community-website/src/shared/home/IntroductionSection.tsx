@@ -3,10 +3,15 @@ import styled from 'styled-components'
 import { FaAws, FaGithub } from 'react-icons/fa'
 import LandingButton from '../components/Button/Link'
 import Logo from '../../assets/logo/logo-dark.svg'
+import { screenSizes } from '../constants'
 
 const Container = styled.div`
     background-color: #f9f9f9;
     padding: 100px;
+
+    @media (max-width: ${screenSizes.s}px) {
+        padding: 100px 30px;
+    }
 `
 
 const Wrapper = styled.div`
@@ -16,6 +21,10 @@ const Wrapper = styled.div`
 const TextContainer = styled.div`
     flex: 1;
     padding-right: 50px;
+
+    @media (max-width: ${screenSizes.s}px) {
+        padding-right: 0;
+    }
 `
 
 const LogoContainer = styled.div`
@@ -24,6 +33,10 @@ const LogoContainer = styled.div`
     flex: 1;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: ${screenSizes.m}px) {
+        display: none;
+    }
 `
 
 const TitleWrapper = styled.div`

@@ -10,10 +10,6 @@ type VideoPlayerProps = {
     source: string
 }
 
-const VideoPlayerWrapper = styled.div`
-    background: black;
-    margin: 20px 0;
-`
 const VideoPlayer = ({ source }: VideoPlayerProps) => {
     const videoJsOptions = {
         autoplay: false,
@@ -25,18 +21,13 @@ const VideoPlayer = ({ source }: VideoPlayerProps) => {
             },
         ],
     }
-    return (
-        <VideoPlayerWrapper>
-            <VideoPlayerComponent {...videoJsOptions} />
-        </VideoPlayerWrapper>
-    )
+    return <VideoPlayerComponent {...videoJsOptions} />
 }
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin: 50px 25px;
 `
 
 const LivestreamContainer = styled.div`
@@ -52,10 +43,12 @@ const Message = styled.div`
 
 const LivestreamTitle = styled.h1`
     font-size: 2em;
+    margin: 50px 0 10px 30px;
 `
 
 const LivestreamDescription = styled.h2`
     font-size: 1.3em;
+    margin: 20px 0 50px 30px;
 `
 
 const LivestreamManagement = () => {
@@ -66,7 +59,9 @@ const LivestreamManagement = () => {
         ;(async () => {
             setLoading(true)
             try {
+                console.log('je lance')
                 const { data } = await fetchLivestreamsWithThumbnail()
+                console.log({ data })
                 if (
                     !data ||
                     !data.listLivestreams ||
@@ -76,10 +71,7 @@ const LivestreamManagement = () => {
                     return
                 setLivestream(data.listLivestreams.items[0] as Livestream)
             } catch (error) {
-                console.error(
-                    'admin/livestream/index.tsx(fetchLivestream):',
-                    error
-                )
+                console.error('livestream/index.tsx(fetchLivestream):', error)
             }
             setLoading(false)
         })()
@@ -93,10 +85,10 @@ const LivestreamManagement = () => {
                 <Container>
                     {livestream && livestream.isLive ? (
                         <LivestreamContainer>
+                            <VideoPlayer source={livestream.url || ''} />
                             <LivestreamTitle>
                                 {livestream.media?.title}
                             </LivestreamTitle>
-                            <VideoPlayer source={livestream.url || ''} />
                             <LivestreamDescription>
                                 {livestream.media?.description}
                             </LivestreamDescription>

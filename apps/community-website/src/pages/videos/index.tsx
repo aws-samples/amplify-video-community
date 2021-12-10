@@ -39,7 +39,8 @@ const Separator = styled.div`
 const Description = styled.h2`
     font-size: 18px;
     font-style: normal;
-    margin: 0;
+    margin: 0 30px;
+    text-align: center;
 `
 
 const VideoPage = () => {

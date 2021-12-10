@@ -110,7 +110,7 @@ const validate = (values) => {
 }
 
 const VideoCreate = (props) => (
-    <Create {...props}>
+    <Create {...props} undoable={false}>
         <SimpleForm validate={validate}>
             <RadioButtonGroupInput
                 source="source"

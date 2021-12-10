@@ -35,26 +35,12 @@ const Community = () => {
                 <OrangeText>discover</OrangeText> the content made by our{' '}
                 <OrangeText>community.</OrangeText>
             </Title>
-            <VideoCardList
-                videoInfos={fakeList}
-                config={{
-                    width: 480,
-                    height: 270,
-                }}
-                redirectTo="/videos"
-            />
+            <VideoCardList videoInfos={fakeList} redirectTo="/videos" />
             <Title>
                 Follow tutorials to get started with{' '}
                 <OrangeText>Amplify Video.</OrangeText>
             </Title>
-            <VideoCardList
-                videoInfos={fakeList}
-                config={{
-                    width: 480,
-                    height: 270,
-                }}
-                redirectTo="/videos"
-            />
+            <VideoCardList videoInfos={fakeList} redirectTo="/videos" />
         </Container>
     )
 }

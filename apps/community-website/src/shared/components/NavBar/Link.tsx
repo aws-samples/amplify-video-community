@@ -10,10 +10,14 @@ const InternalLink = styled(GatsbyLink)`
     align-items: center;
     justify-content: center;
     display: flex;
-    color: ${(props) => props.theme.textColor};
+    color: ${(props) =>
+        props.dropdownMode ? '#000000' : props.theme.textColor};
 
     &:hover {
-        color: ${(props) => props.theme.textHoverColor};
+        color: ${(props) =>
+            props.dropdownMode
+                ? 'var(--amplify-primary-color)'
+                : props.theme.textHoverColor};
     }
 `
 
@@ -26,14 +30,15 @@ const Item = styled.li`
     white-space: nowrap;
     cursor: pointer;
     border-bottom: 0 solid ${(props) => props.theme.textHoverColor};
-    border-top: 0 solid rgba(0, 0, 0, 0);
-    transition: border-bottom 100ms ease-out, border-top 100ms ease-out;
+    transition: border-bottom 100ms ease-out;
     box-sizing: content-box;
+    ${({ dropdownMode }) => dropdownMode && 'flex: 1; height: 100%;'}
 
     &:hover {
-        border-bottom: ${(props) => props.borderHeight}px solid
-            ${(props) => props.theme.textHoverColor};
-        border-top: ${(props) => props.borderHeight}px solid rgba(0, 0, 0, 0);
+        ${(props) =>
+            !props.dropdownMode &&
+            `border-bottom: ${props.borderHeight}px solid
+            ${props.theme.textHoverColor}`};
     }
 `
 
@@ -44,10 +49,14 @@ const ExternalLink = styled.a`
     align-items: center;
     justify-content: center;
     display: flex;
-    color: ${(props) => props.theme.textColor};
+    color: ${(props) =>
+        props.dropdownMode ? '#000000' : props.theme.textColor};
 
     &:hover {
-        color: ${(props) => props.theme.textHoverColor};
+        color: ${(props) =>
+            props.dropdownMode
+                ? 'var(--amplify-primary-color)'
+                : props.theme.textHoverColor};
     }
 `
 
@@ -57,6 +66,7 @@ type HeaderLinkProps = {
     content: string
     isExternal?: boolean
     navBarHeight: number
+    dropdownMode: boolean
 }
 
 const HeaderLink = ({
@@ -66,24 +76,34 @@ const HeaderLink = ({
     theme,
     navBarHeight,
     navBarMinHeight,
+    dropdownMode,
 }: HeaderLinkProps) => {
     const borderHeight = (navBarHeight - navBarMinHeight) / 8 + 2
     if (isExternal)
         return (
-            <Item theme={theme} borderHeight={borderHeight}>
+            <Item
+                theme={theme}
+                borderHeight={borderHeight}
+                dropdownMode={dropdownMode}
+            >
                 <ExternalLink
                     theme={theme}
                     href={to}
                     target="_blank"
                     rel="noopener noreferrer"
+                    dropdownMode={dropdownMode}
                 >
                     <LinkText>{content}</LinkText>
                 </ExternalLink>
             </Item>
         )
     return (
-        <Item theme={theme} borderHeight={borderHeight}>
-            <InternalLink to={to} theme={theme}>
+        <Item
+            theme={theme}
+            borderHeight={borderHeight}
+            dropdownMode={dropdownMode}
+        >
+            <InternalLink dropdownMode={dropdownMode} to={to} theme={theme}>
                 <LinkText>{content}</LinkText>
             </InternalLink>
         </Item>

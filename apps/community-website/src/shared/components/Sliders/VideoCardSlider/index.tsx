@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { navigate } from 'gatsby'
 import CSS from 'csstype'
 import { VideoOnDemand, Thumbnail } from '../../../../models'
+import { defaultVideoCardProperties, screenSizes } from '../../../constants'
 import {
     NextArrow,
     PrevArrow,
@@ -30,24 +31,24 @@ type Props = {
         label: string
     }
     padding?: number
-    itemWidth?: number
     spaceBetweenItems?: number
     redirectTo?: null | string
 }
 
 const SlidingContainer = styled.div`
     display: flex;
-    height: 340px;
+    height: ${({ height }) => height + 20}px;
     align-items: center;
     width: 100vw;
     transition: margin-left 500ms ease-out;
     margin-left: ${(props) => props.left}px;
+    gap: ${({ spaceBetweenItems }) => spaceBetweenItems}px;
 `
 
 const ListContainer = styled.div`
     display: flex;
     align-items: center;
-    height: 360px;
+    height: ${({ height }) => height + 20}px;
     overflow: hidden;
     position: relative;
 `
@@ -59,8 +60,8 @@ const SeeAllItem = styled.div`
     justify-content: center;
     min-width: ${(props) => props.width}px;
     width: ${(props) => props.width}px;
-    min-height: 318px;
-    height: 318px;
+    min-height: ${(props) => props.height}px;
+    height: ${(props) => props.height}px;
     border: 2px solid #ff9900;
     border-radius: 10px;
     box-sizing: border-box;
@@ -70,7 +71,7 @@ const SeeAllItem = styled.div`
 
     &:hover {
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        transform: scale(1.05);
+        transform: scale(1.01);
         background-color: #ffffff;
     }
 `
@@ -88,36 +89,77 @@ const VideoCardList = ({
     videoInfos,
     section = undefined,
     padding = 50,
-    itemWidth = 360,
-    spaceBetweenItems = 40,
+    spaceBetweenItems = 20,
     redirectTo = null,
 }: Props) => {
     const [scroll, setScroll] = useState(0)
+    const [cardProperties, setCardProperties] = useState(
+        defaultVideoCardProperties
+    )
     const { width } = useWindowDimensions()
 
-    const itemTotalWidth = itemWidth + spaceBetweenItems
+    useEffect(() => {
+        if (width < screenSizes.xs) {
+            setCardProperties({
+                width: width - 150,
+                height: 220,
+                infos: 'hide',
+            })
+        } else if (width < screenSizes.s) {
+            setCardProperties({
+                width: 200,
+                height: 220,
+                infos: 'hide',
+            })
+        } else {
+            setCardProperties(defaultVideoCardProperties)
+        }
+        setScroll(0)
+    }, [width])
+
+    const itemTotalWidth = cardProperties.width + spaceBetweenItems
     const nbVideoPerSlide = Math.floor(
         (width - padding + spaceBetweenItems) / itemTotalWidth
     )
 
-    useEffect(() => {
-        setScroll(0)
-    }, [width])
-
     return (
-        <ListContainer padding={padding}>
-            <SlidingContainer left={scroll * itemTotalWidth + padding}>
-                {videoInfos.map((videoInfo, index: number) => (
-                    <div
-                        key={videoInfo.vod?.id + index}
-                        style={{ marginRight: '40px' }}
-                    >
-                        <VideoCard video={videoInfo} redirectTo={redirectTo} />
-                    </div>
-                ))}
+        <ListContainer
+            padding={padding}
+            height={
+                cardProperties.infos === 'show'
+                    ? cardProperties.height + 100
+                    : cardProperties.height
+            }
+        >
+            <SlidingContainer
+                left={scroll * itemTotalWidth + padding}
+                height={
+                    cardProperties.infos === 'show'
+                        ? cardProperties.height + 100
+                        : cardProperties.height
+                }
+                spaceBetweenItems={spaceBetweenItems}
+            >
+                {videoInfos.map((videoInfo, index: number) => {
+                    return (
+                        <VideoCard
+                            key={videoInfo.vod?.id + index}
+                            video={videoInfo}
+                            redirectTo={redirectTo}
+                            cardWidth={cardProperties.width}
+                            cardHeight={cardProperties.height}
+                            videoInfos={cardProperties.infos}
+                        />
+                    )
+                })}
                 {section && (
                     <SeeAllItem
-                        width={itemWidth}
+                        width={cardProperties.width}
+                        height={
+                            cardProperties.infos === 'show'
+                                ? cardProperties.height + 100
+                                : cardProperties.height
+                        }
                         onClick={() => {
                             navigate(
                                 redirectTo
@@ -126,9 +168,12 @@ const VideoCardList = ({
                             )
                         }}
                     >
-                        <SeeAllItemText>
-                            See all {videoInfos.length} {section.label} videos.
-                        </SeeAllItemText>
+                        {width > screenSizes.xs && (
+                            <SeeAllItemText>
+                                See all {videoInfos.length} {section.label}{' '}
+                                videos.
+                            </SeeAllItemText>
+                        )}
                         <RightArrowLogo height={50} width={50} />
                     </SeeAllItem>
                 )}
@@ -138,7 +183,7 @@ const VideoCardList = ({
                     onClick={() => setScroll(scroll + nbVideoPerSlide)}
                 />
             )}
-            {-scroll < videoInfos.length + 1 - nbVideoPerSlide && (
+            {-scroll < videoInfos.length - nbVideoPerSlide && (
                 <NextArrow
                     onClick={() => setScroll(scroll - nbVideoPerSlide)}
                 />

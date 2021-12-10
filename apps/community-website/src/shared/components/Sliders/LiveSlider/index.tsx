@@ -4,6 +4,8 @@ import Slider, { Settings } from 'react-slick'
 import { NextArrow, PrevArrow } from './Arrows'
 import VideoCard from './Card'
 import { Livestream, Thumbnail } from '../../../../models'
+import { screenSizes } from '../../../constants'
+import { useWindowDimensions } from '../../../hooks'
 
 type LiveSliderProps = {
     thumbnails: Array<{
@@ -28,6 +30,7 @@ const LiveSlider = ({ livestreams, thumbnails }: LiveSliderProps) => {
     const [imageIndex, setImageIndex] = useState<number>(0)
     const slidesToShow = (slidesNumber: number) =>
         thumbnails.length >= slidesNumber ? slidesNumber : thumbnails.length
+    const { width } = useWindowDimensions()
 
     const sliderSettings: Settings = {
         infinite: true,
@@ -35,7 +38,7 @@ const LiveSlider = ({ livestreams, thumbnails }: LiveSliderProps) => {
         centerMode: true,
         lazyLoad: 'progressive',
         autoplay: false,
-        autoplaySpeed: 3500,
+        autoplaySpeed: 1000,
         draggable: true,
         speed: 300,
         slidesToShow: slidesToShow(3),
@@ -45,7 +48,7 @@ const LiveSlider = ({ livestreams, thumbnails }: LiveSliderProps) => {
         beforeChange: (current: number, next: number) => setImageIndex(next),
         responsive: [
             {
-                breakpoint: 768,
+                breakpoint: screenSizes.xs,
                 settings: {
                     slidesToShow: slidesToShow(1),
                 },
@@ -65,6 +68,7 @@ const LiveSlider = ({ livestreams, thumbnails }: LiveSliderProps) => {
 
                     return (
                         <VideoCard
+                            displayInfos={width >= screenSizes.m}
                             key={correspondingLivestream.id}
                             isActive={idx === imageIndex}
                             thumbnail={thumbnail}

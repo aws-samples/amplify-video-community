@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import { screenSizes } from '../../constants'
 
 type ContainerProps = {
     last?: boolean
@@ -10,6 +11,10 @@ const Container = styled.div<ContainerProps>`
     display: flex;
     width: 100%;
     margin-bottom: ${(props) => (props.last ? '0' : '20px')};
+
+    @media (max-width: ${screenSizes.s}px) {
+        flex-direction: column;
+    }
 `
 
 const FieldNameContainer = styled.div`

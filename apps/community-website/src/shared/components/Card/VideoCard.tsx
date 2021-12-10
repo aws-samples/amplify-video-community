@@ -7,11 +7,12 @@ import Thumbnail from '../Thumbnail'
 export const VideoCardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 360px;
-    min-width: 360px;
-    height: 300px;
-    min-height: 300px;
-    transition: box-shadow 200ms ease-out, transform 200ms ease-out;
+    width: ${({ width }) => width}px;
+    min-width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
+    min-height: ${({ height }) => height}px;
+    transition: box-shadow 200ms ease-out, transform 200ms ease-out,
+        height 200ms ease-out;
     transform: scale(${(props) => (props.playing ? 1.05 : 1)});
     ${(props) =>
         props.playing && 'box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);'};
@@ -102,6 +103,9 @@ const VideoCard = ({
     haveSubtitle = false,
     children,
     redirectTo = null,
+    videoInfos = 'hover',
+    cardWidth = 360,
+    cardHeight = 200,
 }) => {
     const [videoStatus, setVideoStatus] = useState<VideoStatus>({
         playing: false,
@@ -131,8 +135,15 @@ const VideoCard = ({
             onClick={() =>
                 navigate(redirectTo ? redirectTo : `/video/${video?.vod?.id}`)
             }
+            width={cardWidth}
         >
-            <Thumbnail video={video} videoStatus={videoStatus} />
+            <Thumbnail
+                video={video}
+                videoStatus={videoStatus}
+                width={cardWidth}
+                height={cardHeight}
+                loadVideo={videoStatus.playing}
+            />
             <CardItemContentContainer transparent={!videoStatus.playing}>
                 {children}
             </CardItemContentContainer>
@@ -142,31 +153,50 @@ const VideoCard = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             playing={videoStatus.playing}
+            videoInfos={videoInfos}
             onClick={() =>
                 navigate(redirectTo ? redirectTo : `/video/${video?.vod?.id}`)
             }
+            width={cardWidth}
+            height={
+                (videoInfos === 'hover' && videoStatus.playing) ||
+                videoInfos === 'show'
+                    ? cardHeight + 100
+                    : cardHeight
+            }
         >
-            <Thumbnail video={video} videoStatus={videoStatus} />
-            <VideoInformations transparent={!videoStatus.playing}>
-                <ChannelLogo>
-                    <AmplifyLogo />
-                </ChannelLogo>
-                <VideoText>
-                    <VideoTitle>
-                        {video.vod?.media?.title
-                            ? video.vod?.media?.title
-                            : 'Video Title'}
-                    </VideoTitle>
-                    {haveSubtitle ? (
-                        <div style={{ display: 'flex', flex: 1 }} />
-                    ) : (
-                        <>
-                            <VideoAuthor>Author</VideoAuthor>
-                            <ViewsAndDate>1M views - 18 sep 2025</ViewsAndDate>
-                        </>
-                    )}
-                </VideoText>
-            </VideoInformations>
+            <Thumbnail
+                video={video}
+                videoStatus={videoStatus}
+                loadVideo={videoStatus.playing}
+                width={cardWidth}
+                height={cardHeight}
+            />
+            {((videoInfos === 'hover' && videoStatus.playing) ||
+                videoInfos === 'show') && (
+                <VideoInformations transparent={!videoStatus.playing}>
+                    <ChannelLogo>
+                        <AmplifyLogo />
+                    </ChannelLogo>
+                    <VideoText>
+                        <VideoTitle>
+                            {video.vod?.media?.title
+                                ? video.vod?.media?.title
+                                : 'Video Title'}
+                        </VideoTitle>
+                        {haveSubtitle ? (
+                            <div style={{ display: 'flex', flex: 1 }} />
+                        ) : (
+                            <>
+                                <VideoAuthor>Author</VideoAuthor>
+                                <ViewsAndDate>
+                                    1M views - 18 sep 2025
+                                </ViewsAndDate>
+                            </>
+                        )}
+                    </VideoText>
+                </VideoInformations>
+            )}
         </VideoCardContainer>
     )
 }

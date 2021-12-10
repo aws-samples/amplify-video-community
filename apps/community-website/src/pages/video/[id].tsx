@@ -8,14 +8,14 @@ import { fetchMediasSectionsFiltered } from '../../shared/api'
 import Layout from '../../shared/components/Layout'
 import VideoPlayerComponent from '../../shared/components/VideoPlayer'
 import { VideoOnDemand, MediasSections } from '../../models'
+import { useWindowDimensions } from '../../shared/hooks'
+import { screenSizes } from '../../shared/constants'
+
+import AmplifyLogo from '../../assets/logo/logo-light.svg'
 
 type VideoPlayerProps = {
     video: VideoOnDemand | undefined
 }
-
-const VideoPlayerWrapper = styled.div`
-    background: black;
-`
 
 const VideoPlayer = ({ video }: VideoPlayerProps) => {
     const videoJsOptions = {
@@ -28,11 +28,7 @@ const VideoPlayer = ({ video }: VideoPlayerProps) => {
             },
         ],
     }
-    return (
-        <VideoPlayerWrapper>
-            {<VideoPlayerComponent {...videoJsOptions} />}
-        </VideoPlayerWrapper>
-    )
+    return <VideoPlayerComponent {...videoJsOptions} />
 }
 
 type IframeVideoPlayerProps = {
@@ -46,11 +42,13 @@ const IFrameWrapper = styled.div`
 `
 
 const IframeVideoPlayer = ({ asset }: IframeVideoPlayerProps) => {
+    const { width } = useWindowDimensions()
+
     return (
         <IFrameWrapper>
             <iframe
-                width="1280"
-                height="720"
+                width="100%"
+                height={(9 * width) / 16}
                 src={asset.src}
                 title={asset.media?.title}
                 frameBorder="0"
@@ -63,16 +61,6 @@ const IframeVideoPlayer = ({ asset }: IframeVideoPlayerProps) => {
 
 const Card = styled.div`
     box-sizing: border-box;
-`
-
-const BreadCrumb = styled.div`
-    padding-top: 20px;
-    padding-bottom: 13px;
-    font-size: 14px;
-    color: #000000;
-    &:first-child {
-        color: #666666;
-    }
 `
 
 const SectionAndDate = styled.div`
@@ -89,7 +77,7 @@ const FormatedDate = styled.span`
 
 const SectionName = styled.span`
     font-size: 16px;
-    color: #ff9900;
+    color: var(--amplify-primary-color);
 
     &:after {
         content: ' / ';
@@ -97,36 +85,67 @@ const SectionName = styled.span`
 `
 
 const Title = styled.h1`
-    margin-top: 10px;
+    margin-top: 25px;
     font-size: 26px;
+    font-size: 44px;
+    font-weight: bold;
+    color: #000000;
+
+    @media (max-width: ${screenSizes.xs}px) {
+        font-size: 34px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `
 
 const Description = styled.p`
+    margin-top: 50px;
     font-size: 22px;
-    margin-top: 30px;
     padding-bottom: 50px;
+    color: #000000;
 `
 
 const AuthorAndViewCount = styled.div`
+    margin-top: 40px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+
+    @media (max-width: ${screenSizes.xs}px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `
 
 const Author = styled.span`
     display: flex;
     font-size: 22px;
     color: #000000;
+    font-size: 30px;
     align-items: center;
+    margin-bottom: 10px;
+
+    @media (max-width: ${screenSizes.xs}px) {
+        font-size: 24px;
+    }
 `
 
 const AuthorImage = styled.div`
-    background-color: #c4c4c4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px #000000;
+    background-color: #ededed;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 100%;
     width: 50px;
     height: 50px;
-    margin-right: 20px;
+    margin-right: 15px;
+
+    @media (max-width: ${screenSizes.xs}px) {
+        width: 10vw;
+        height: 10vw;
+    }
 `
 
 const ViewCount = styled.span`
@@ -134,10 +153,15 @@ const ViewCount = styled.span`
     font-size: 22px;
 `
 
-const Container = styled.div`
-    background-color: #f9f9f9;
+const VideoData = styled.div`
     padding: 0 100px;
+
+    @media (max-width: ${screenSizes.s}px) {
+        padding: 0 20px;
+    }
 `
+
+const Container = styled.div``
 
 const VideoPage = (props: PageProps) => {
     const id = props.params.id
@@ -188,40 +212,42 @@ const VideoPage = (props: PageProps) => {
                     <p>{loaded && 'Video Not Found'}</p>
                 ) : (
                     <Card>
-                        <BreadCrumb>
-                            <span>Video / </span>
-                            <span>{asset.media?.title}</span>
-                        </BreadCrumb>
                         {asset.src === null ? (
                             <VideoPlayer video={asset} />
                         ) : (
                             <IframeVideoPlayer asset={asset} />
                         )}
-                        <SectionAndDate>
-                            <div>
-                                {mediaSections?.map((ms) => {
-                                    return (
-                                        <SectionName key={ms.id}>
-                                            {ms.section.label}
-                                        </SectionName>
-                                    )
-                                })}
-                            </div>
-                            <FormatedDate>
-                                {moment(asset.media?.createdAt).format(
-                                    'MMM Do YYYY'
-                                )}
-                            </FormatedDate>
-                        </SectionAndDate>
-                        <Title>{asset.media?.title}</Title>
-                        <AuthorAndViewCount>
-                            <Author>
-                                <AuthorImage />
-                                Author name
-                            </Author>
-                            <ViewCount>View count</ViewCount>
-                        </AuthorAndViewCount>
-                        <Description>{asset.media?.description}</Description>
+                        <VideoData>
+                            <SectionAndDate>
+                                <div>
+                                    {mediaSections?.map((ms) => {
+                                        return (
+                                            <SectionName key={ms.id}>
+                                                {ms.section.label}
+                                            </SectionName>
+                                        )
+                                    })}
+                                </div>
+                                <FormatedDate>
+                                    {moment(asset.media?.createdAt).format(
+                                        'MMM Do YYYY'
+                                    )}
+                                </FormatedDate>
+                            </SectionAndDate>
+                            <Title>{asset.media?.title}</Title>
+                            <AuthorAndViewCount>
+                                <Author>
+                                    <AuthorImage>
+                                        <AmplifyLogo width="60%" height="60%" />
+                                    </AuthorImage>
+                                    Author name
+                                </Author>
+                                <ViewCount>View count</ViewCount>
+                            </AuthorAndViewCount>
+                            <Description>
+                                {asset.media?.description}
+                            </Description>
+                        </VideoData>
                     </Card>
                 )}
             </Container>

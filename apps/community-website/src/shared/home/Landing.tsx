@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import intro from '../../videos/introduction-video.mp4'
+import { screenSizes } from '../constants'
 
 const LandingContainer = styled.div`
     background-color: black;
@@ -16,6 +17,14 @@ const VideoPlayer = styled.video`
     top: 0;
     left: 0;
     z-index: 1;
+
+    @media (max-width: ${screenSizes.m}px) {
+        height: 50vh;
+    }
+
+    @media (max-width: ${screenSizes.xs}px) {
+        height: 40vh;
+    }
 `
 
 const Landing = () => {
